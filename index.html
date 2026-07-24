@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ziaulhaq Rahimi - Senior Banking Professional & Software Engineer | Oracle FLEXCUBE Expert | Herat, Afghanistan">
+    <title>Ziaulhaq Rahimi | Banking Professional</title>
+    
+    <!-- SEO & Open Graph -->
+    <meta property="og:title" content="Ziaulhaq Rahimi - Banking & Tech Professional">
+    <meta property="og:description" content="Experienced professional in banking operations, Oracle FLEXCUBE, AML/KYC at Afghan United Bank.">
+    <meta property="og:image" content="https://zia-rahimi1997.github.io/assets/images/hero-bg.jpg">
+    <meta property="og:url" content="https://zia-rahimi1997.github.io">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap">
+    
+    <!-- Libraries via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --accent: #14B8A6;
+            --bg: #0B1120;
+            --surface: #111827;
+            --text: #F9FAFB;
+            --secondary-text: #9CA3AF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(11, 17, 32, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #0B1120 0%, #1E2937 100%);
+            z-index: -1;
+        }
+        
+        .glass-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            padding: 14px 32px;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="py-5 px-8 flex items-center justify-between">
+        <div class="text-2xl font-semibold heading-font tracking-tight">Zia Rahimi</div>
+        <div class="flex items-center gap-8 text-sm font-medium">
+            <a href="#about" class="hover:text-[var(--accent)] transition-colors nav-link">About</a>
+            <a href="#experience" class="hover:text-[var(--accent)] transition-colors nav-link">Experience</a>
+            <a href="#skills" class="hover:text-[var(--accent)] transition-colors nav-link">Skills</a>
+            <a href="#projects" class="hover:text-[var(--accent)] transition-colors nav-link">Projects</a>
+            <a href="#contact" class="hover:text-[var(--accent)] transition-colors nav-link">Contact</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="lang-switch">
+                <button onclick="switchLang('en')" class="lang-btn px-3 py-1 rounded-full text-xs border border-white/30 hover:bg-white/10 transition-all active-lang">EN</button>
+                <button onclick="switchLang('fa')" class="lang-btn px-3 py-1 rounded-full text-xs border border-white/30 hover:bg-white/10 transition-all">FA</button>
+                <button onclick="switchLang('ps')" class="lang-btn px-3 py-1 rounded-full text-xs border border-white/30 hover:bg-white/10 transition-all">PS</button>
+            </div>
+            <button onclick="toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-full border border-white/30 hover:bg-white/10">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="#" onclick="downloadResume()" class="btn-primary text-sm">Download CV</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero" class="hero">
+        <div class="hero-bg"></div>
+        <div class="max-w-7xl mx-auto px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div id="hero-greeting" class="inline-flex items-center gap-2 bg-white/10 text-white/80 text-sm px-5 py-2 rounded-full mb-6">
+                    Herat, Afghanistan
+                </div>
+                <h1 id="hero-name" class="text-7xl md:text-8xl heading-font font-semibold tracking-tighter leading-none mb-6">
+                    Ziaulhaq Rahimi
+                </h1>
+                <p id="hero-title" class="text-3xl text-[var(--accent)] mb-8">Senior Banking Professional &amp; FLEXCUBE Expert</p>
+                <p id="hero-desc" class="text-xl text-[var(--secondary-text)] max-w-lg mb-10">
+                    Delivering excellence in cash operations, AML/KYC, and digital banking solutions with precision and integrity.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#contact" class="btn-primary text-lg px-10 py-6">Get In Touch</a>
+                    <a href="#experience" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})" 
+                       class="border border-white/40 hover:border-white/70 px-10 py-6 rounded-full text-lg transition-all">View Experience</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating stats -->
+        <div class="absolute bottom-12 right-12 glass-card p-8 max-w-xs hidden lg:block">
+            <div class="grid grid-cols-2 gap-6 text-center">
+                <div>
+                    <div class="text-4xl font-semibold text-[var(--accent)]" id="stat1">5000+</div>
+                    <div class="text-sm text-[var(--secondary-text)]">Transactions Daily</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-semibold text-[var(--accent)]" id="stat2">99.9%</div>
+                    <div class="text-sm text-[var(--secondary-text)]">Accuracy Rate</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 flex flex-col items-center text-[var(--secondary-text)] text-xs tracking-widest">
+            <div>SCROLL TO EXPLORE</div>
+            <div class="w-px h-12 bg-gradient-to-b from-transparent via-white/30 to-transparent mt-2"></div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-32 bg-[var(--surface)]">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="grid md:grid-cols-2 gap-20 items-center">
+                <div>
+                    <h2 id="about-title" class="text-6xl heading-font font-semibold tracking-tighter mb-8">About Me</h2>
+                    <div id="about-text" class="prose prose-invert text-lg text-[var(--secondary-text)]">
+                        <p>With years of hands-on experience in high-volume banking operations, I specialize in ensuring compliance, operational excellence, and superior customer service at Afghan United Bank.</p>
+                        <p>Passionate about leveraging technology in traditional banking, with deep expertise in Oracle FLEXCUBE and modern digital payment systems.</p>
+                    </div>
+                </div>
+                <div class="glass-card p-12">
+                    <img src="https://picsum.photos/id/64/600/800" alt="Ziaulhaq Rahimi" class="w-full rounded-3xl shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="py-32">
+        <div class="max-w-7xl mx-auto px-8">
+            <h2 id="exp-title" class="text-6xl heading-font font-semibold tracking-tighter mb-16 text-center">Professional Experience</h2>
+            
+            <div class="space-y-16">
+                <!-- Afghan United Bank -->
+                <div class="glass-card p-10">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="text-[var(--accent)] font-medium">Afghan United Bank - Herat Main Branch</div>
+                            <div id="job-title" class="text-3xl heading-font font-semibold">Cashier &amp; Backup Head Cashier</div>
+                        </div>
+                        <div class="text-right text-sm text-[var(--secondary-text)]">
+                            <div>July 2024 — Present</div>
+                            <div>Herat, Afghanistan</div>
+                        </div>
+                    </div>
+                    <ul id="responsibilities" class="grid md:grid-cols-2 gap-x-8 gap-y-3 text-[var(--secondary-text)]">
+                        <li class="flex items-start gap-3"><span class="text-[var(--accent)] mt-1">•</span> Cash Deposits &amp; Withdrawals</li>
+                        <li class="flex items-start gap-3"><span class="text-[var(--accent)] mt-1">•</span> Oracle FLEXCUBE Operations</li>
+                        <li class="flex items-start gap-3"><span class="text-[var(--accent)] mt-1">•</span> AML / KYC Compliance</li>
+                        <li class="flex items-start gap-3"><span class="text-[var(--accent)] mt-1">•</span> MoneyGram &amp; Fund Transfers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="py-32 bg-[var(--surface)]">
+        <div class="max-w-7xl mx-auto px-8">
+            <h2 id="skills-title" class="text-6xl heading-font font-semibold tracking-tighter mb-16 text-center">Core Expertise</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-10">
+                    <h3 class="text-xl mb-6 text-[var(--accent)]">Banking Operations</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between"><span>Oracle FLEXCUBE</span><span class="text-emerald-400">Advanced</span></div>
+                        <div class="h-1.5 bg-white/10 rounded"><div class="w-[95%] h-full bg-[var(--accent)] rounded"></div></div>
+                    </div>
+                </div>
+                <!-- More skill cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-20 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-8 text-center text-[var(--secondary-text)]">
+            <p>&copy; 2026 Ziaulhaq Rahimi. All Rights Reserved.</p>
+            <p class="mt-2">Hosted on GitHub Pages • Built with passion for excellence</p>
+        </div>
+    </footer>
+
+    <script>
+        // Register GSAP
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Language Data
+        const translations = {
+            en: {
+                heroGreeting: "Herat, Afghanistan",
+                heroName: "Ziaulhaq Rahimi",
+                heroTitle: "Senior Banking Professional & FLEXCUBE Expert",
+                heroDesc: "Delivering excellence in cash operations, AML/KYC, and digital banking solutions with precision and integrity.",
+                aboutTitle: "About Me",
+                expTitle: "Professional Experience",
+                skillsTitle: "Core Expertise",
+                jobTitle: "Cashier & Backup Head Cashier"
+            },
+            fa: {
+                heroGreeting: "هرات، افغانستان",
+                heroName: "ضیاالحق رحیمی",
+                heroTitle: "متخصص ارشد بانکی و کارشناس FLEXCUBE",
+                heroDesc: "ارائه تعالی در عملیات نقدی، AML/KYC و راه‌حل‌های بانکداری دیجیتال با دقت و صداقت.",
+                aboutTitle: "درباره من",
+                expTitle: "تجربه حرفه‌ای",
+                skillsTitle: "تخصص‌های اصلی",
+                jobTitle: " касیر و معاون سر касیر"
+            },
+            ps: {
+                // Pashto translations (approximate - use proper script)
+                heroGreeting: "هرات، افغانستان",
+                heroName: "ضیاالحق رحیمي",
+                heroTitle: "لوړ پوړی بانکي متخصص او FLEXCUBE ماهر",
+                heroDesc: "د نغدو عملیاتو، AML/KYC او ډیجیټل بانکي حلونو کې غوره والي وړاندې کول.",
+                aboutTitle: "زما په اړه",
+                expTitle: "مسلکي تجربه",
+                skillsTitle: "اصلي مهارتونه",
+                jobTitle: "کاسیر او مرستیال سر کاسیر"
+            }
+        };
+        
+        let currentLang = 'en';
+        
+        function switchLang(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // Update texts
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active-lang', 'bg-white/20');
+                if (btn.textContent.toLowerCase() === lang) {
+                    btn.classList.add('active-lang', 'bg-white/20');
+                }
+            });
+            
+            // Simple demo updates - expand for full site
+            const t = translations[lang];
+            if (document.getElementById('hero-greeting')) document.getElementById('hero-greeting').textContent = t.heroGreeting;
+            if (document.getElementById('hero-name')) document.getElementById('hero-name').textContent = t.heroName;
+            // ... more updates in full implementation
+        }
+        
+        function toggleTheme() {
+            // Dark is default, can extend to light
+            alert("Theme toggle coming in full build");
+        }
+        
+        function downloadResume() {
+            // Simulate download
+            const link = document.createElement('a');
+            link.href = '#'; // In real: link to PDF
+            link.download = 'Ziaulhaq_Rahimi_CV.pdf';
+            link.click();
+        }
+        
+        // Animations
+        window.addEventListener('load', () => {
+            gsap.from(".hero h1", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" });
+            // More ScrollTrigger animations
+            ScrollTrigger.create({
+                trigger: "#about",
+                start: "top 80%",
+                onEnter: () => gsap.to("#about", {opacity:1})
+            });
+            
+            console.log('%cPortfolio ready. Premium feel achieved.', 'color:#14B8A6; font-size:14px');
+        });
+        
+        // Keyboard navigation, etc. for accessibility
+    </script>
+</body>
+</html>
