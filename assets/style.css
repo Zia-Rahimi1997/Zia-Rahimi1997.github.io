@@ -292,13 +292,118 @@ html[dir="rtl"] .checklist li::after{transform:rotate(-45deg) scaleX(-1)}
 .mini-note strong{display:block;font-size:13.5px;color:#cfe0ff;margin-bottom:4px}
 .mini-note p{font-size:13.5px;color:var(--muted)}
 
-/* skills */
-.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.skills-grid > article:last-child{grid-column:1/-1}
+/* ── skills: bento deck with living accents ───────────────── */
+.skills-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:26px;
+  align-items:stretch;
+}
+.skill-card{grid-column:span 3;position:relative;border-radius:var(--radius);padding:1px;
+  isolation:isolate;overflow:hidden;
+  box-shadow:0 26px 60px -44px rgba(0,0,0,.9);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.skill-card:hover{transform:translateY(-4px);
+  box-shadow:0 34px 70px -40px rgba(0,0,0,.95),0 18px 44px -34px var(--acc)}
+.skill-card.acc-mint,.skill-card.acc-violet,.skill-card.acc-rose{grid-column:span 2}
+
+.skill-card{
+  --acc:#4f8cff;
+  --acc-soft:rgba(79,140,255,.13);
+  --acc-brd:rgba(79,140,255,.30);
+}
+.acc-gold{--acc:#e8b95c;--acc-soft:rgba(232,185,92,.12);--acc-brd:rgba(232,185,92,.32)}
+.acc-blue{--acc:#62b6ff;--acc-soft:rgba(98,182,255,.12);--acc-brd:rgba(98,182,255,.32)}
+.acc-mint{--acc:#4fe0b8;--acc-soft:rgba(79,224,184,.11);--acc-brd:rgba(79,224,184,.30)}
+.acc-violet{--acc:#b39dff;--acc-soft:rgba(179,157,255,.12);--acc-brd:rgba(179,157,255,.30)}
+.acc-rose{--acc:#ff92b6;--acc-soft:rgba(255,146,182,.11);--acc-brd:rgba(255,146,182,.30)}
+
+/* the light that travels around the border */
+.sc-ring{position:absolute;inset:-55%;z-index:0;pointer-events:none;opacity:.72;
+  background:conic-gradient(from 0deg,
+    transparent 0deg 240deg,
+    var(--acc-brd) 268deg,
+    var(--acc) 288deg,
+    #ffffff 296deg,
+    var(--acc) 304deg,
+    transparent 330deg 360deg);
+  animation:ringSpin 11s linear infinite}
+.acc-mint .sc-ring{animation-duration:13s}
+.acc-violet .sc-ring{animation-duration:12s}
+.acc-rose .sc-ring{animation-duration:14s}
+.skill-card:hover .sc-ring{opacity:.95;animation-duration:5s}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+
+/* inner face of the card */
+.sc-body{position:relative;z-index:1;border-radius:calc(var(--radius) - 1px);
+  padding:18px 20px 20px;
+  background:
+    radial-gradient(120% 90% at 100% 0%,var(--acc-soft),transparent 58%),
+    linear-gradient(168deg,#151d31 0%,#0c1220 62%,#0a1120 100%);
+  height:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}
+/* a single sheen of light crosses the card when it first appears */
+.sc-body::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.055) 50%,transparent 60%);
+  transform:translateX(-120%);opacity:0}
+html.motion .in .sc-body::after{animation:cardSheen 1.7s .25s var(--ease) 1 both}
+@keyframes cardSheen{
+  0%{transform:translateX(-120%);opacity:0}
+  25%{opacity:1}
+  100%{transform:translateX(120%);opacity:0}
+}
+
+.sc-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sc-icon{flex:0 0 auto;width:40px;height:40px;border-radius:13px;display:grid;place-items:center;
+  color:var(--acc);background:var(--acc-soft);border:1px solid var(--acc-brd);
+  box-shadow:inset 0 0 18px -8px var(--acc);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.sc-icon svg{width:21px;height:21px}
+.skill-card:hover .sc-icon{transform:translateY(-2px) rotate(-4deg);
+  box-shadow:inset 0 0 22px -6px var(--acc),0 10px 22px -16px var(--acc)}
+.sc-title{min-width:0;flex:1 1 auto}
+.sc-title h3{font-size:1.02rem;line-height:1.45;margin:0 0 3px;color:#eef3ff}
+.sc-meta{display:block;font-size:11.5px;font-weight:700;letter-spacing:.02em;color:var(--acc);opacity:.85}
+.sc-num{flex:0 0 auto;font-family:Georgia,'Times New Roman',serif;font-style:italic;
+  font-size:20px;line-height:1;color:transparent;
+  -webkit-text-stroke:1px var(--acc);opacity:.42;
+  transition:opacity .4s var(--ease),text-shadow .4s var(--ease)}
+.skill-card:hover .sc-num{opacity:1;text-shadow:0 0 16px var(--acc)}
+
+/* thin moving line under the header */
+.sc-bar{display:block;height:1px;margin:0 0 14px;border-radius:2px;overflow:hidden;
+  background:linear-gradient(90deg,transparent,var(--acc-brd),transparent)}
+.sc-bar i{display:block;width:38%;height:100%;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--acc),#fff,var(--acc),transparent);
+  opacity:.95;box-shadow:0 0 10px var(--acc);animation:barRun 5.5s var(--ease) infinite}
+.acc-mint .sc-bar i{animation-delay:.6s}
+.acc-violet .sc-bar i{animation-delay:1.2s}
+.acc-rose .sc-bar i{animation-delay:1.8s}
+@keyframes barRun{0%{transform:translateX(-120%)}55%,100%{transform:translateX(300%)}}
+
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{
   padding:5px 11px;border-radius:8px;font-size:12.8px;font-weight:600;line-height:1.6;
   background:rgba(79,140,255,.11);border:1px solid rgba(79,140,255,.25);color:#c2d6f8;
+}
+
+/* chips inside the deck: accent dot + hover lift */
+.skill-card .chip{position:relative;display:inline-flex;align-items:center;gap:7px;
+  padding:5px 11px 5px 9px;font-size:12.6px;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);color:#cbd8ee;
+  transition:background .25s var(--ease),border-color .25s var(--ease),
+             color .25s,transform .25s var(--ease),box-shadow .25s var(--ease)}
+[dir="rtl"] .skill-card .chip{padding:5px 9px 5px 11px}
+.skill-card .chip::before{content:"";flex:0 0 auto;width:5px;height:5px;border-radius:50%;
+  background:var(--acc);opacity:.55;box-shadow:0 0 8px var(--acc);
+  transition:opacity .25s,transform .25s var(--ease)}
+.skill-card .chip:hover{background:var(--acc-soft);border-color:var(--acc-brd);color:#ffffff;
+  transform:translateY(-2px);box-shadow:0 10px 20px -14px var(--acc)}
+.skill-card .chip:hover::before{opacity:1;transform:scale(1.35)}
+
+/* a wave of dots runs across the card on hover */
+html.motion .skill-card:hover .chip::before{animation:dotWave 1.4s ease-in-out both;
+  animation-delay:calc(var(--i,0) * 55ms)}
+@keyframes dotWave{
+  0%,100%{opacity:.55;transform:none}
+  35%{opacity:1;transform:scale(1.6);box-shadow:0 0 12px var(--acc)}
 }
 
 /* education */
@@ -418,12 +523,18 @@ a.contact-item:hover{border-color:rgba(79,140,255,.55);transform:translateY(-2px
   .nav-links{margin-inline-start:0}
   .nav-actions{margin-inline-start:auto}
   .stat-strip{grid-template-columns:repeat(2,1fr)}
-  .skills-grid,.ach-grid{grid-template-columns:1fr}
-  .skills-grid > article:last-child{grid-column:auto}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+  .skill-card,.skill-card.acc-mint,.skill-card.acc-violet,.skill-card.acc-rose{grid-column:span 1}
+  .ach-grid{grid-template-columns:1fr}
   .float-2{inset-inline-start:-2%}
 }
 @media (max-width:540px){
   body{font-size:16px}
+  .skills-grid{grid-template-columns:1fr;gap:14px}
+  .sc-body{padding:16px 16px 17px}
+  .sc-icon{width:36px;height:36px;border-radius:11px}
+  .sc-icon svg{width:19px;height:19px}
+  .sc-title h3{font-size:.98rem}
   .brand-text{display:none}
   .stat{padding:16px 12px}
   .stat-num{font-size:1.25rem}

@@ -157,7 +157,7 @@
 
   /* ---------- 10. Pointer spotlight + portrait tilt (desktop only) ---------- */
   if (canHover && !reduce) {
-    document.querySelectorAll('.card, .ach, .timeline li, .train, .lang-card, .contact-item, .philosophy, .vision')
+    document.querySelectorAll('.card, .skill-card, .ach, .timeline li, .train, .lang-card, .contact-item, .philosophy, .vision')
       .forEach(function (el) { el.classList.add('spot'); });
 
     let queued = false, lastX = 0, lastY = 0, lastTarget = null;
@@ -193,6 +193,7 @@
   document.querySelectorAll('.chips').forEach(function (group) {
     group.querySelectorAll('.chip').forEach(function (chip, i) {
       chip.style.transitionDelay = Math.min(i * 32, 400) + 'ms';
+      chip.style.setProperty('--i', i);
     });
   });
 
