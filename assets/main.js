@@ -11,7 +11,8 @@
   /* ---------- 1. Language ---------- */
   const STORE_KEY = 'portfolio-lang';
 
-  function applyLang(lang) {
+  function applyLang(lang, animate) {
+    if (animate) document.body.classList.add('lang-swap');
     const isFa = lang === 'fa';
     html.setAttribute('lang', lang);
     html.setAttribute('dir', isFa ? 'rtl' : 'ltr');
@@ -36,6 +37,8 @@
     langCurrent.textContent = isFa ? 'EN' : 'فا';
     langBtn.setAttribute('aria-label', isFa ? 'Switch to English' : 'تغییر به فارسی');
 
+    if (animate) setTimeout(function () { document.body.classList.remove('lang-swap'); }, 170);
+
     try { localStorage.setItem(STORE_KEY, lang); } catch (e) {}
   }
 
@@ -49,7 +52,7 @@
 
   langBtn.addEventListener('click', function () {
     current = current === 'fa' ? 'en' : 'fa';
-    applyLang(current);
+    applyLang(current, true);
   });
 
   /* ---------- 2. Mobile menu ---------- */
@@ -103,6 +106,95 @@
     }, { rootMargin: '-45% 0px -50% 0px' });
     sections.forEach(function (s) { spy.observe(s); });
   }
+
+
+  /* ---------- 7. Motion preferences ---------- */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!reduce) document.documentElement.classList.add('motion');
+
+  /* ---------- 8. Scroll progress + back-to-top ---------- */
+  const spBar = document.getElementById('spBar');
+  const toTop = document.getElementById('toTop');
+  function onScrollUI() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    if (spBar) spBar.style.width = pct.toFixed(2) + '%';
+    if (toTop) toTop.classList.toggle('show', window.scrollY > 520);
+  }
+  window.addEventListener('scroll', onScrollUI, { passive: true });
+  window.addEventListener('resize', onScrollUI);
+  onScrollUI();
+  if (toTop) {
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+
+  /* ---------- 9. Counting numbers ---------- */
+  const counters = document.querySelectorAll('.stat-num[data-count]');
+  function runCounter(el) {
+    const target = parseInt(el.dataset.count, 10) || 0;
+    const suffix = el.dataset.suffix || '';
+    if (reduce) { el.textContent = target + suffix; return; }
+    const dur = 1150, t0 = performance.now();
+    (function tick(now) {
+      const k = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))) + suffix;
+      if (k < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  if ('IntersectionObserver' in window && counters.length) {
+    const cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { runCounter(e.target); cio.unobserve(e.target); }
+      });
+    }, { threshold: 0.55 });
+    counters.forEach(function (c) { cio.observe(c); });
+  } else {
+    counters.forEach(runCounter);
+  }
+
+  /* ---------- 10. Pointer spotlight + portrait tilt (desktop only) ---------- */
+  if (canHover && !reduce) {
+    document.querySelectorAll('.card, .ach, .timeline li, .train, .lang-card, .contact-item, .philosophy, .vision')
+      .forEach(function (el) { el.classList.add('spot'); });
+
+    let queued = false, lastX = 0, lastY = 0, lastTarget = null;
+    document.addEventListener('pointermove', function (e) {
+      lastX = e.clientX; lastY = e.clientY;
+      lastTarget = e.target && e.target.closest ? e.target.closest('.spot') : null;
+      if (queued || !lastTarget) return;
+      queued = true;
+      requestAnimationFrame(function () {
+        queued = false;
+        if (!lastTarget) return;
+        const r = lastTarget.getBoundingClientRect();
+        lastTarget.style.setProperty('--mx', (lastX - r.left) + 'px');
+        lastTarget.style.setProperty('--my', (lastY - r.top) + 'px');
+      });
+    }, { passive: true });
+
+    const art = document.querySelector('.hero-art');
+    const portrait = document.querySelector('.avatar-card');
+    if (art && portrait) {
+      art.addEventListener('pointermove', function (e) {
+        const r = art.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        portrait.style.transform =
+          'rotateY(' + (px * 9).toFixed(2) + 'deg) rotateX(' + (-py * 9).toFixed(2) + 'deg)';
+      });
+      art.addEventListener('pointerleave', function () { portrait.style.transform = ''; });
+    }
+  }
+
+  /* ---------- 11. Chips appear in sequence ---------- */
+  document.querySelectorAll('.chips').forEach(function (group) {
+    group.querySelectorAll('.chip').forEach(function (chip, i) {
+      chip.style.transitionDelay = Math.min(i * 32, 400) + 'ms';
+    });
+  });
 
   /* ---------- 6. Year ---------- */
   const yearEl = document.getElementById('year');

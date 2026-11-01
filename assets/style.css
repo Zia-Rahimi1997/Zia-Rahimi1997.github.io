@@ -440,10 +440,89 @@ a.contact-item:hover{border-color:rgba(79,140,255,.55);transform:translateY(-2px
   html{scroll-behavior:auto}
 }
 
+/* ═══════════════════════════════════════════════════════════
+   Motion & micro-interactions (no libraries, GPU-friendly)
+   ═══════════════════════════════════════════════════════════ */
+
+/* scroll progress bar */
+.scroll-progress{position:fixed;inset-block-start:0;inset-inline:0;height:2.5px;z-index:80;pointer-events:none;background:rgba(255,255,255,.05)}
+.scroll-progress i{display:block;height:100%;width:0;border-radius:0 2px 2px 0;
+  background:linear-gradient(90deg,var(--gold),#ffffff 45%,var(--accent-2));
+  box-shadow:0 0 14px rgba(79,140,255,.85);transition:width .08s linear}
+
+/* anchors don't hide behind the sticky nav */
+section[id],main[id]{scroll-margin-top:86px}
+
+/* the name gently shimmers */
+.grad{background-size:230% 100%;animation:nameShimmer 12s ease-in-out infinite}
+@keyframes nameShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* hero background glows drift */
+.glow-a{animation:driftA 26s ease-in-out infinite alternate}
+.glow-b{animation:driftB 34s ease-in-out infinite alternate}
+@keyframes driftA{to{transform:translate3d(-46px,34px,0) scale(1.09)}}
+@keyframes driftB{to{transform:translate3d(54px,-32px,0) scale(1.13)}}
+
+@media (hover: none){
+  .glow-a,.glow-b{animation:none}
+}
+
+/* numbers line up while counting */
+.stat-num{font-variant-numeric:tabular-nums}
+
+/* nav underline grows on hover / for the active section */
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;inset-inline:12px;bottom:4px;height:1.5px;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transform:scaleX(0);transform-origin:center;transition:transform .3s var(--ease);opacity:.95}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+
+/* buttons: light sweep */
+.btn-primary,.btn-ghost{position:relative;overflow:hidden}
+.btn-primary::after,.btn-ghost::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.42) 50%,transparent 58%);
+  transform:translateX(-135%)}
+.btn-primary:hover::after{transform:translateX(135%);transition:transform .75s var(--ease)}
+.btn-ghost::before{background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.10) 50%,transparent 58%)}
+.btn-ghost:hover::before{transform:translateX(135%);transition:transform .75s var(--ease)}
+.btn > *{position:relative;z-index:3}
+
+/* spotlight that follows the pointer */
+.spot{position:relative}
+.spot::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  opacity:0;transition:opacity .45s var(--ease);
+  background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(79,140,255,.19),transparent 64%)}
+.spot:hover::after{opacity:1}
+
+/* hero portrait tilts towards the cursor */
+.hero-art{perspective:1000px}
+.avatar-card{transition:transform .55s var(--ease);transform-style:preserve-3d;will-change:transform}
+
+/* chips fade in one after another (only when JS motion is on) */
+html.motion .chip{opacity:0;transform:translateY(7px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease)}
+html.motion .in .chip{opacity:1;transform:none}
+
+/* language switch: short cross-fade */
+body.lang-swap [data-fa][data-en]{opacity:.3}
+body [data-fa][data-en]{transition:opacity .16s linear}
+
+/* back to top */
+.to-top{position:fixed;inset-block-end:22px;inset-inline-end:22px;width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;z-index:70;color:#cfe0ff;
+  background:rgba(11,17,32,.92);border:1px solid rgba(79,140,255,.35);backdrop-filter:blur(10px);
+  box-shadow:0 16px 36px -20px rgba(0,0,0,.95);
+  opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;
+  transition:opacity .32s var(--ease),transform .32s var(--ease),border-color .2s,background .2s}
+.to-top svg{width:19px;height:19px;stroke-width:2.1}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{border-color:rgba(79,140,255,.85);background:rgba(79,140,255,.2);transform:translateY(-3px)}
+
+
 /* print (رزومهٔ چاپی) */
 @media print{
   body{background:#fff;color:#111}
-  .nav,.hero-art,.socials,.btn,.glow,.quote-mark{display:none!important}
+  .nav,.hero-art,.socials,.btn,.glow,.quote-mark,.to-top,.scroll-progress{display:none!important}
   .card,.timeline li,.ach,.philosophy,.vision,.contact-card{background:none!important;border-color:#ccc!important}
   .reveal{opacity:1!important;transform:none!important}
   .grad{color:#111!important;-webkit-text-fill-color:#111}
