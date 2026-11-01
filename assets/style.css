@@ -544,7 +544,7 @@ html[dir="rtl"] .philosophy blockquote{line-height:1.85}
 .contact-lead{color:var(--muted);max-width:62ch;margin-inline:auto;position:relative;font-size:15px}
 .contact-card .eyebrow,.contact-card .cta-row,.contact-card .contact-grid{position:relative}
 .contact-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:11px;
   margin:clamp(24px,4vw,34px) 0 4px;text-align:start;
 }
 .contact-item{
@@ -644,7 +644,7 @@ section[id],main[id]{scroll-margin-top:86px}
 }
 
 /* numbers line up while counting */
-.stat-num{font-variant-numeric:tabular-nums}
+.stat-num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
 
 /* nav underline grows on hover / for the active section */
 .nav-links a{position:relative}
@@ -695,10 +695,101 @@ body [data-fa][data-en]{transition:opacity .16s linear}
 .to-top:hover{border-color:rgba(79,140,255,.85);background:rgba(79,140,255,.2);transform:translateY(-3px)}
 
 
+/* ══════ Section titles: the underline draws itself ══════ */
+.section-title{position:relative;padding-bottom:14px}
+.section-title::after{content:"";position:absolute;inset-block-end:0;inset-inline-start:0;
+  height:2px;width:0;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold),var(--accent),var(--accent-2));
+  box-shadow:0 0 12px rgba(79,140,255,.65);
+  transition:width 1s var(--ease) .12s}
+.section-title.in::after{width:74px}
+
+/* ══════ Stat strip: a light sweeps across ══════ */
+.stat-strip{position:relative;overflow:hidden}
+.stat-strip::after{content:"";position:absolute;inset-block:0;width:20%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(79,140,255,.14),transparent);
+  animation:stripScan 8s linear infinite}
+@keyframes stripScan{0%{transform:translateX(-140%)}100%{transform:translateX(620%)}}
+.stat{position:relative;z-index:1;transition:background .3s}
+.stat:hover{background:#0d1626}
+.stat-num{transition:color .3s,text-shadow .3s}
+.stat:hover .stat-num{color:#fff;text-shadow:0 0 22px rgba(79,140,255,.7)}
+.stat-num::after{transition:width .4s var(--ease),box-shadow .4s}
+.stat:hover .stat-num::after{width:54px;box-shadow:0 0 12px rgba(79,140,255,.9)}
+
+/* ══════ About: fact rows react ══════ */
+.about-facts li{transition:border-color .3s,background .3s,transform .35s var(--ease)}
+.about-facts li:hover{border-color:rgba(79,140,255,.45);background:rgba(79,140,255,.08);transform:translateX(-3px)}
+[dir="rtl"] .about-facts li:hover{transform:translateX(3px)}
+.status-open{position:relative;padding-inline-start:14px}
+.status-open::before{content:"";position:absolute;inset-inline-start:0;top:50%;width:6px;height:6px;
+  margin-top:-3px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(52,211,153,.2);
+  animation:livePulse 2.2s ease-in-out infinite}
+@keyframes livePulse{50%{box-shadow:0 0 0 8px rgba(52,211,153,0)}}
+
+/* ══════ Achievements: icons + per-card accents ══════ */
+.ach{--acc:#62b6ff;--acc-soft:rgba(98,182,255,.12);--acc-brd:rgba(98,182,255,.42);
+  transition:border-color .3s,transform .35s var(--ease),box-shadow .35s var(--ease)}
+.ach-grid > .ach:nth-child(2){--acc:#22d3ee;--acc-soft:rgba(34,211,238,.12);--acc-brd:rgba(34,211,238,.42)}
+.ach-grid > .ach:nth-child(3){--acc:#4fe0b8;--acc-soft:rgba(79,224,184,.11);--acc-brd:rgba(79,224,184,.4)}
+.ach-grid > .ach:nth-child(4){--acc:#e8b95c;--acc-soft:rgba(232,185,92,.11);--acc-brd:rgba(232,185,92,.42)}
+.ach::before{content:"";position:absolute;inset-block-start:0;inset-inline:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.7}
+.ach:hover{border-color:var(--acc-brd);transform:translateY(-4px);
+  box-shadow:0 30px 56px -38px var(--acc)}
+.ach-ico{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:11px;margin-bottom:12px;
+  color:var(--acc);background:var(--acc-soft);border:1px solid var(--acc-brd);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.ach-ico svg{width:18px;height:18px}
+.ach:hover .ach-ico{transform:translateY(-2px) rotate(-6deg);box-shadow:0 12px 24px -16px var(--acc)}
+.ach-num{transition:-webkit-text-stroke .35s,transform .45s var(--ease)}
+.ach:hover .ach-num{-webkit-text-stroke:1.5px var(--acc);transform:scale(1.07)}
+
+/* ══════ Philosophy & vision ══════ */
+.quote-mark{animation:quoteFloat 6s ease-in-out infinite;
+  filter:drop-shadow(0 8px 22px rgba(79,140,255,.5))}
+@keyframes quoteFloat{50%{transform:translateY(-6px)}}
+.vision{position:relative;overflow:hidden;
+  transition:border-color .3s,transform .35s var(--ease),box-shadow .35s var(--ease)}
+.vision::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  transition:opacity .55s var(--ease);
+  background:radial-gradient(120% 110% at 100% 0%,rgba(79,140,255,.16),transparent 62%)}
+.vision:hover::before{opacity:1}
+.vision:hover{border-color:rgba(79,140,255,.42);transform:translateY(-2px);
+  box-shadow:0 26px 50px -36px rgba(79,140,255,.9)}
+
+/* ══════ Contact: copy button + toast ══════ */
+.ci-wrap{position:relative;isolation:isolate}
+.ci-wrap .contact-item{padding-inline-end:44px}
+.ci-copy{position:absolute;z-index:3;inset-block-start:50%;inset-inline-end:8px;transform:translateY(-50%);
+  width:27px;height:27px;border-radius:8px;display:grid;place-items:center;cursor:pointer;
+  color:#9fc0ff;background:rgba(79,140,255,.12);border:1px solid rgba(79,140,255,.26);opacity:.8;
+  transition:opacity .25s,background .25s,color .25s,transform .25s var(--ease),border-color .25s}
+.ci-copy svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.ci-copy:hover{opacity:1;background:rgba(79,140,255,.28);color:#fff;border-color:rgba(79,140,255,.6);
+  transform:translateY(-50%) scale(1.07)}
+.ci-copy.copied{color:#08111f;background:#4fe0b8;border-color:#4fe0b8;opacity:1}
+.toast{position:fixed;left:50%;bottom:86px;transform:translate(-50%,14px);z-index:90;
+  padding:10px 18px;border-radius:12px;font-size:13.5px;font-weight:800;color:#eaf2ff;
+  background:rgba(12,20,36,.97);border:1px solid rgba(79,140,255,.45);
+  box-shadow:0 22px 46px -24px rgba(0,0,0,.95),0 0 26px -12px rgba(79,140,255,.8);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ══════ Footer hairline ══════ */
+.footer{position:relative}
+.footer::before{content:"";position:absolute;inset-block-start:0;inset-inline:0;height:1px;opacity:.8;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--accent),var(--accent-2),transparent);
+  background-size:230% 100%;animation:footerRun 10s linear infinite}
+@keyframes footerRun{0%{background-position:0% 50%}100%{background-position:230% 50%}}
+
+
 /* print (رزومهٔ چاپی) */
 @media print{
   body{background:#fff;color:#111}
-  .nav,.hero-art,.socials,.btn,.glow,.quote-mark,.to-top,.scroll-progress{display:none!important}
+  .nav,.hero-art,.socials,.btn,.glow,.quote-mark,.to-top,.scroll-progress,.ci-copy,.toast{display:none!important}
   .card,.timeline li,.ach,.philosophy,.vision,.contact-card{background:none!important;border-color:#ccc!important}
   .reveal{opacity:1!important;transform:none!important}
   .grad{color:#111!important;-webkit-text-fill-color:#111}

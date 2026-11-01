@@ -33,6 +33,13 @@
       a.setAttribute('download', isFa ? 'Ziaulhaq-Rahimi-CV-FA.pdf' : 'Ziaulhaq-Rahimi-CV-EN.pdf');
     });
 
+    // copy buttons: keep their icon, translate the accessible label only
+    document.querySelectorAll('.ci-copy').forEach(function (b) {
+      const label = isFa ? 'کپی' : 'Copy';
+      b.setAttribute('aria-label', label);
+      b.setAttribute('title', label);
+    });
+
     // button shows the language you can switch TO
     langCurrent.textContent = isFa ? 'EN' : 'فا';
     langBtn.setAttribute('aria-label', isFa ? 'Switch to English' : 'تغییر به فارسی');
@@ -236,6 +243,64 @@
       bio.observe(barGrid);
     } else { fill(); }
   }
+
+
+  /* ---------- 14. Copy to clipboard + toast ---------- */
+  let toastTimer = null;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 1900);
+  }
+  function legacyCopy(text) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:-1000px;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch (err) { return false; }
+  }
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text) ? undefined : Promise.reject(new Error('copy failed'));
+      });
+    }
+    return legacyCopy(text) ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+  }
+  document.querySelectorAll('.ci-copy').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const isFa = html.dataset.lang !== 'en';
+      const value = btn.dataset.copy;
+      let settled = false;
+
+      function confirmCopy() {
+        if (settled) return;
+        settled = true;
+        btn.classList.add('copied');
+        setTimeout(function () { btn.classList.remove('copied'); }, 1300);
+        showToast(isFa ? 'کپی شد ✓' : 'Copied ✓');
+      }
+      copyText(value).then(confirmCopy).catch(function () {
+        if (settled) return;
+        settled = true;
+        showToast((isFa ? 'کپی دستی: ' : 'Copy manually: ') + value);
+      });
+      // never leave the user without feedback if the promise stays pending
+      setTimeout(confirmCopy, 550);
+    });
+  });
 
   /* ---------- 6. Year ---------- */
   const yearEl = document.getElementById('year');
