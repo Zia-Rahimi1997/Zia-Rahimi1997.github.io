@@ -197,6 +197,46 @@
     });
   });
 
+
+  /* ---------- 12. Timeline rail grows as you scroll ---------- */
+  const tlEl = document.querySelector('.timeline');
+  function railUpdate() {
+    if (!tlEl) return;
+    const r = tlEl.getBoundingClientRect();
+    if (reduce) { tlEl.style.setProperty('--tl', '100%'); return; }
+    const anchor = window.innerHeight * 0.62;
+    let p = (anchor - r.top) / (r.height * 0.9);
+    p = Math.max(0, Math.min(1, p));
+    tlEl.style.setProperty('--tl', (p * 100).toFixed(2) + '%');
+  }
+  window.addEventListener('scroll', railUpdate, { passive: true });
+  window.addEventListener('resize', railUpdate);
+  railUpdate();
+
+  /* ---------- 13. Language bars fill when they come into view ---------- */
+  const barGrid = document.querySelector('.lang-grid');
+  if (barGrid) {
+    const bars = barGrid.querySelectorAll('.bar i');
+    bars.forEach(function (b) {
+      b.dataset.w = b.style.width || '100%';
+      if (!reduce) b.style.width = '0%';
+    });
+    const fill = function () {
+      bars.forEach(function (b, i) {
+        setTimeout(function () {
+          b.style.transition = 'width 1.15s cubic-bezier(.22,1,.36,1)';
+          b.style.width = b.dataset.w;
+        }, reduce ? 0 : i * 140);
+      });
+    };
+    if ('IntersectionObserver' in window) {
+      const bio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { fill(); bio.disconnect(); } });
+      }, { threshold: 0.35 });
+      bio.observe(barGrid);
+    } else { fill(); }
+  }
+
   /* ---------- 6. Year ---------- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
